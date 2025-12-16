@@ -1,6 +1,6 @@
-> 📁 Kategorie: Schnittstellen / Azure / Automatisierung  
-> 🗓️ Erstellt: 03.12.2025  
-> ✨ Ziel: Verstehen, wie Graph API funktioniert und wie ich sie im Projekt anwenden kann.
+> Kategorie: Schnittstellen / Azure / Automatisierung  
+> Erstellt: 03.12.2025  
+> Ziel: Verstehen, wie Graph API funktioniert und wie ich sie im Projekt anwenden kann.
 
 ---
 
@@ -29,11 +29,11 @@ Die **Microsoft Graph API** ist die zentrale Schnittstelle von Microsoft 365.
 Sie fasst die verschiedenen Microsoft-Dienste in **eine einzige REST-API** zusammen statt mehrere einzelne Schnittstellen zu haben.
 
 Kurz gesagt:  
-➡️ **Eine API, um (fast) alles im Microsoft-Universum anzusprechen.**
+**Eine API, um (fast) alles im Microsoft-Universum anzusprechen.**
 
 ---
 
-## 🧩 Wie funktioniert die Graph API?
+##  Wie funktioniert die Graph API?
 
 Die Graph API basiert auf **HTTP-Requests**, meistens GET, POST, PATCH, DELETE.
 
@@ -45,7 +45,7 @@ Dieser Request holt alle Informationen zum aktuell angemeldeten Benutzer.
 
 ### Authentifizierung
 
-Die Authentifizierung laeuft ueber **Azure AD** mittels:
+Die Authentifizierung läuft über **Azure AD** mittels:
 
 - OAuth 2.0
     
@@ -63,12 +63,12 @@ Der Ablauf ist:
     
 3. Token holen
     
-4. API-Call damit ausfuehren
+4. API-Call damit ausführen
     
 
 ---
 
-## 🔐 Berechtigungen (Scopes)
+## Berechtigungen (Scopes)
 
 Es gibt zwei Arten von Berechtigungen:
 
@@ -76,17 +76,17 @@ Es gibt zwei Arten von Berechtigungen:
 
 – Benutzer ist eingeloggt  
 – App handelt im Namen des Users  
-➡️ Beispiel: E-Mail des Users lesen
+Beispiel: E-Mail des Users lesen
 
 ### **Application Permissions**
 
 – Keiner ist eingeloggt  
 – App arbeitet allein als "Service"  
-➡️ Beispiel: Alle Benutzer eines Unternehmens auslesen
+Beispiel: Alle Benutzer eines Unternehmens auslesen
 
 ---
 
-## 📬 Typische Anwendungsfaelle
+## Typische Anwendungsfälle
 
 ### E-Mails lesen oder senden:
 
@@ -106,54 +106,54 @@ Es gibt zwei Arten von Berechtigungen:
 
 ---
 
-## ⚙️ Warum ist Graph API so praktisch?
+## Warum ist Graph API so praktisch?
 
-- **Einheitliche Struktur:** gleiche URL-Logik ueber alle Dienste hinweg
+- **Einheitliche Struktur:** gleiche URL-Logik über alle Dienste hinweg
     
 - **Gut dokumentiert:** Microsoft hat extrem viele Beispiele
     
 - **Sicher:** Token-basiert mit klaren Berechtigungen
     
-- **Skalierbar:** perfekt fuer grosse Firmen (wie Sunrise)
+- **Skalierbar:** perfekt für grosse Firmen (wie Sunrise)
     
-- **Automatisierbar:** ideal fuer Hintergrundjobs
+- **Automatisierbar:** ideal für Hintergrundjobs
     
 
 ---
 
-## 💡 Aha-Momente
+## Aha-Momente
 
-- Ich brauche **kein Exchange- oder Outlook-spezifisches API** → alles geht ueber Graph.
+- Ich brauche **kein Exchange- oder Outlook-spezifisches API** → alles geht über Graph.
     
 - Permissions sind das schwierigste Thema – wenn etwas nicht geht, liegt es zu 90% an falschen Scopes.
     
-- Microsoft stellt eine **Explorer-Oberflaeche** bereit, wo man Calls testen kann:  
+- Microsoft stellt eine **Explorer-Oberfläche** bereit, wo man Calls testen kann:  
     [https://developer.microsoft.com/en-us/graph/graph-explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
     
-- Graph API eignet sich sehr gut fuer Automatisierung, z. B.:
+- Graph API eignet sich sehr gut für Automatisierung, z. B.:
     
     - automatische Reminder
         
     - E-Mail-Benachrichtigungen
         
-    - Kalender-Eintraege erstellen
+    - Kalender-Einträge erstellen
         
     - Userdaten abfragen
         
-- Fast jede Funktion in Office 365 laesst sich damit programmgesteuert ausfuehren.
+- Fast jede Funktion in Office 365 lässt sich damit programmgestürt ausführen.
     
 
 ---
 
-## 🛠️ Beispiel: E-Mail automatisch senden
+## Beispiel: E-Mail automatisch senden
 
-So koennte ein POST-Request aussehen:
+So könnte ein POST-Request aussehen:
 
-`{   "message": {     "subject": "Score&More Benachrichtigung",     "body": {       "contentType": "Text",       "content": "Hallo, es gibt neue Informationen."     },     "toRecipients": [       {         "emailAddress": {           "address": "beispiel@sunrise.ch"         }       }     ]   },   "saveToSentItems": "true" }`
+`{   "message":{     "subject": "Score&More Benachrichtigung",     "body": {       "contentType": "Text",       "content": "Hallo, es gibt neue Informationen."     },     "toRecipients": [       {         "emailAddress": {           "address": "beispiel@sunrise.ch"         }       }     ]   },   "saveToSentItems": "true" }`
 
 ---
 
-## 🧪 Was muss ich fuer die Verwendung vorbereiten?
+## 🧪 Was muss ich für die Verwendung vorbereiten?
 
 1. **App Registration** in Azure
     
@@ -172,13 +172,13 @@ Wenn das einmal steht, ist der Rest nur noch "API-Call" und läuft stabil.
 
 ---
 
-## 📎 Weiterfuehrende Links
+## 📎 Weiterführende Links
 
 - Microsoft Graph Explorer  
     [https://developer.microsoft.com/en-us/graph/graph-explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
     
-- Quickstart (super verstaendlich)  
+- Quickstart (super verständlich)  
     https://learn.microsoft.com/en-us/graph/quick-start
     
-- Berechtigungen erklaert  
+- Berechtigungen erklärt  
     [https://learn.microsoft.com/en-us/graph/permissions-reference](https://learn.microsoft.com/en-us/graph/permissions-reference)
