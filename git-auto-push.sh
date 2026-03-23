@@ -1,31 +1,41 @@
 #!/bin/bash
+set -euo pipefail
 
-# Daily commit and push script for Obsidian vault or any Git repo
-# This script checks for changes, commits them with a timestamp, and pushes to origin main (or master if needed)
+# === CONFIG ===
+REPO_DIR="/Users/selina/Library/Mobile Documents/iCloud~md~obsidian/Documents/ICloud_Vault/Sunrise/Lernjournal"
+BRANCH="main"
+LOG_FILE="/Users/selina/git-auto-push.log"
 
-BRANCH="main"  # Change to 'master' if your repo uses master
+# === RUN ===
+{
+  echo "----- $(date +'%Y-%m-%d %H:%M:%S') -----"
 
-# Check if it's a Git repo
-if [ ! -d .git ]; then
-    echo "Error: This is not a Git repository."
+  cd "$REPO_DIR"
+
+  if ! command -v git >/dev/null 2>&1; then
+    echo "Error: git not found in PATH. PATH=$PATH"
     exit 1
-fi
+  fi
 
-# Check for uncommitted changes
-if [[ -n $(git status --porcelain) ]]; then
-    echo "Changes detected. Committing and pushing..."
+  if [ ! -d .git ]; then
+    echo "Error: $REPO_DIR is not a Git repository."
+    exit 1
+  fi
 
-    # Add all changes
-    git add .
+  if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Changes detected."
+    git add -A
 
-    # Commit with current date as message
+    if git diff --cached --quiet; then
+      echo "Nothing staged after add -A. Skipping."
+      exit 0
+    fi
+
     COMMIT_MESSAGE="Daily commit: $(date +'%Y-%m-%d %H:%M:%S')"
     git commit -m "$COMMIT_MESSAGE"
-
-    # Push to origin
     git push origin "$BRANCH"
-
     echo "Committed and pushed successfully."
-else
+  else
     echo "No changes to commit."
-fi
+  fi
+} >> "$LOG_FILE" 2>&1
