@@ -1,6 +1,6 @@
-> 📁 Kategorie: DevOps / Deployment / Infrastruktur  
-> 🗓️ Erstellt: 20.01.2026  
-> 🎯 Ziel: Verstehen, wie Applikationen reproduzierbar und sauber deployt werden können.
+> Kategorie: DevOps / Deployment / Infrastruktur  
+> Erstellt: 20.01.2026  
+> Ziel: Verstehen, wie Applikationen reproduzierbar und sauber deployt werden können.
 
 ---
 

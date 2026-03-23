@@ -1,6 +1,6 @@
-> 📁 Kategorie: Security / Datenbank / Backend  
-> 🗓️ Erstellt: 20.01.2026  
-> 🎯 Ziel: Sensible Daten sicher in der Datenbank speichern.
+> Kategorie: Security / Datenbank / Backend  
+> Erstellt: 20.01.2026  
+> Ziel: Sensible Daten sicher in der Datenbank speichern.
 
 ---
 

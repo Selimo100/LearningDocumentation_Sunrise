@@ -1,5 +1,5 @@
-> 📁 Kategorie: Backend / Infrastruktur / Mail  
-> 🗓️ Erstellt: 12.01.2026
+> Kategorie: Backend / Infrastruktur / Mail  
+> Erstellt: 12.01.2026
 
 ---
 
