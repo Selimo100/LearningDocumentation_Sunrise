@@ -4,7 +4,6 @@ https://sunrisecomm-my.sharepoint.com/:o:/g/personal/selina_mogicato_sunrise_net
 # April 2026
 
 ---
-
 ## Ziel dieses Journals
 
 Dieses Journal dokumentiert meinen Einstieg in **Service Fulfillment** und insbesondere in das Projekt **Building Service**.  
@@ -289,3 +288,158 @@ Für mich ist dieses Projekt eine gute Gelegenheit, meine bisherige Erfahrung au
 
 ---
 # Mai 2026
+# Mai 2026
+
+## Woche 1 – Endpoint-Tracing und Schnupperwoche
+
+### Hauptthemen
+
+- REST Endpoint von Anfang bis Ende verfolgen
+- GraphQL Endpoint von Anfang bis Ende verfolgen
+- Austausch mit Mihaela
+- Schnupperwoche begleiten
+
+---
+
+### Was habe ich gemacht?
+
+In dieser Woche habe ich im Bereich **Service Fulfillment** begonnen, die verschiedenen Endpoint-Arten praktisch zu verfolgen. Zuerst habe ich einen **REST Endpoint** vom Request in Postman bis in den Code zurückverfolgt. Dabei habe ich mir genau angeschaut, wo der Request ankommt, welche Controller-Methode verwendet wird, wie die Parameter verarbeitet werden und wie der Call über Service und Repository bis zur Elasticsearch-Abfrage weiterläuft.
+
+Anschliessend habe ich auch einen **GraphQL Endpoint** von Anfang bis Ende analysiert. Dabei habe ich dokumentiert, wie sich der Flow im Vergleich zu REST unterscheidet und welche Klassen dabei eine Rolle spielen. Alle Erkenntnisse habe ich ausführlich in OneNote festgehalten.
+
+Zusätzlich habe ich Mihaela ein Update zu meinem aktuellen Stand gegeben. Ich habe ihr erklärt, wie ich das Projekt angehe, welchen Zeitplan ich mir gemacht habe und was ich beim Endpoint-Tracing bereits verstanden habe.
+
+Parallel dazu war diese Woche auch die **Schnupperwoche**. Ich habe die Schnuppis beim Instagram-Projekt unterstützt, ihnen beim Einstieg geholfen und sie während der Umsetzung begleitet. Auch wenn das nicht direkt zu Service Fulfillment gehört, war es für mich persönlich sehr wertvoll, weil ich gemerkt habe, wie gerne ich Wissen weitergebe und Lernende begleite.
+
+---
+
+### Was habe ich gelernt?
+
+Ich habe gelernt, dass man ein grosses Backend-Projekt am besten versteht, wenn man konkrete Requests Schritt für Schritt verfolgt. Nur die Projektstruktur zu kennen reicht nicht aus. Erst wenn man sieht, wie ein Request wirklich durch Controller, Service, Repository und Elasticsearch läuft, versteht man die Architektur richtig.
+
+Beim Vergleich von REST und GraphQL habe ich gemerkt, dass beide Schnittstellen unterschiedliche Einstiegspunkte haben, aber sich später oft dieselben Services und Repository-Schichten teilen. Das hat mir geholfen, das Projekt nicht mehr als einzelne Dateien, sondern als zusammenhängendes System zu sehen.
+
+---
+
+## Woche 2 – gRPC, Dummy Endpoint und Endpoint-Design
+
+### Hauptthemen
+
+- gRPC Endpoint vollständig verfolgen
+- Dummy Endpoint implementieren
+- Endpoint-Design für Spider
+- Migration-Dokumentation lesen
+- Zeitplanung und Projektrolle definieren
+
+---
+
+### Was habe ich gemacht?
+
+In dieser Woche habe ich mich stärker auf **gRPC** konzentriert. Ich habe einen gRPC Endpoint vom Request bis zur Response verfolgt und dokumentiert. Dabei habe ich mir den kompletten Flow angeschaut:
+
+```
+Client Request→ gRPC Stub→ DefaultBuildingServiceGrpc→ Service Layer→ Repository→ Elasticsearch→ BuildingDoc→ BuildingDto→ Proto Response
+```
+
+Das war besonders hilfreich, weil Spider später ebenfalls über gRPC mit dem Building Service kommunizieren soll.
+
+Zusätzlich habe ich einen kleinen **Dummy REST Endpoint** implementiert. Dieser Endpoint war bewusst sehr einfach gehalten und diente dazu, den technischen Ablauf einer neuen Endpoint-Implementation besser zu verstehen. Damit konnte ich prüfen, wie ein Controller aufgebaut ist, wie der Request-Pfad funktioniert und wie eine JSON-Response zurückgegeben wird.
+
+Danach habe ich begonnen, das Design für den eigentlichen neuen Endpoint zu erarbeiten. Ziel ist eine **Building IDs API für Spider**. Spider soll künftig für eine komplette Strasse oder eine komplette Ortschaft alle betroffenen Building-IDs laden können.
+
+Die wichtigsten Designentscheidungen waren:
+
+- Nur gRPC, kein REST und kein GraphQL
+- Zwei getrennte Methoden statt einer generischen Methode
+- `FindBuildingIdsByStreetId`
+- `FindBuildingIdsByZipCode`
+- Response enthält nur `repeated int64 building_ids`
+- Kein vollständiges `BuildingDto`
+- Kein Paging, da Spider die vollständige Liste braucht
+- Keine zusätzlichen Filter im ersten Schritt
+
+Zusätzlich habe ich die Dokumentation zur **UPC Applications Migration** gelesen und mir dazu Notizen gemacht. Ich habe mir auch überlegt, wie tief ich in das Projekt involviert sein möchte und wie ich meine Zeit sinnvoll auf Analyse, Design und Implementation aufteilen kann.
+
+---
+
+### Was habe ich gelernt?
+
+Ich habe gelernt, dass gRPC deutlich strikter und strukturierter ist als REST oder GraphQL. Durch die `.proto`-Datei ist der Vertrag klar definiert, was für interne Kommunikation sehr hilfreich ist.
+
+Der Dummy Endpoint hat mir geholfen, den Prozess einer kleinen Implementation einmal praktisch durchzugehen, ohne direkt das finale Feature bauen zu müssen. Das war ein guter Zwischenschritt, weil ich dadurch mehr Sicherheit im Projekt bekommen habe.
+
+Beim Design der Building IDs API habe ich gelernt, wie wichtig es ist, eine Response bewusst klein zu halten. Spider braucht nur Building-IDs, also soll der Endpoint auch nur diese Daten liefern. Das macht die API schneller, klarer und einfacher wartbar.
+
+---
+
+## Ergänzung: Building IDs API für Spider
+
+### Ziel
+
+Spider soll für eine komplette Strasse oder eine komplette Ortschaft alle betroffenen Building-IDs laden können.
+
+Use Case:
+
+Wenn ein geplanter Stromausfall eine ganze Strasse betrifft, braucht Spider alle Building-IDs entlang dieser Strasse, um den Impact berechnen zu können.
+
+Bestehende Suchen liefern bereits:
+
+- Strassensuche liefert `streetId`
+- Ortschaftssuche liefert `zipCode`
+
+Was noch fehlt:
+
+- Alle Building-IDs zu einer `streetId`
+- Alle Building-IDs zu einem `zipCode`
+
+---
+
+### API-Typ
+
+Die neue API soll **nur über gRPC** umgesetzt werden.
+
+REST und GraphQL werden dafür nicht benötigt, weil Spider bereits gRPC für interne Kommunikation verwendet.
+
+Gründe:
+
+- bessere Performance
+- stabiler Vertrag durch `.proto`
+- weniger Payload
+- geeignet für interne Service-Kommunikation
+
+---
+
+### Geplantes API-Design
+
+```
+rpc FindBuildingIdsByStreetId(    FindBuildingIdsByStreetIdRequest) returns (    FindBuildingIdsResponse);rpc FindBuildingIdsByZipCode(    FindBuildingIdsByZipCodeRequest) returns (    FindBuildingIdsResponse);
+```
+
+```
+message FindBuildingIdsByStreetIdRequest {  string tenant = 1;  int64 street_id = 2;}message FindBuildingIdsByZipCodeRequest {  string tenant = 1;  string zip_code = 2;}message FindBuildingIdsResponse {  repeated int64 building_ids = 1;}
+```
+
+---
+
+### Warum zwei Methoden?
+
+Ich habe mich bewusst gegen einen generischen Namen wie `FindBuildingIds` entschieden.
+
+Besser sind zwei klare Methoden:
+
+- `FindBuildingIdsByStreetId`
+- `FindBuildingIdsByZipCode`
+
+Der Vorteil ist, dass direkt sichtbar ist, welche Suche durchgeführt wird. Dadurch bleibt die API verständlicher und weniger fehleranfällig.
+
+---
+
+### Persönliche Reflexion
+
+Service Fulfillment ist für mich bisher sehr spannend, weil ich hier an einem deutlich grösseren Enterprise-System arbeite. Ich merke, dass ich durch dieses Projekt lerne, viel systematischer vorzugehen.
+
+Besonders wichtig war für mich die Erkenntnis:
+
+Ich sollte nicht sofort implementieren, sondern zuerst verstehen, testen, vergleichen und designen.
+
+Die Zusammenarbeit mit **Tino und Mihaela** hilft mir sehr, weil ich dadurch sehe, wie erfahrene Entwickler an grosse Systeme herangehen. Ich freue mich darauf, noch tiefer in das Projekt einzusteigen und meine bisherigen Erfahrungen aus Journey, FlowBoard und Score&More hier anzuwenden.
