@@ -433,7 +433,6 @@ Besser sind zwei klare Methoden:
 Der Vorteil ist, dass direkt sichtbar ist, welche Suche durchgeführt wird. Dadurch bleibt die API verständlicher und weniger fehleranfällig.
 
 ---
-
 ### Persönliche Reflexion
 
 Service Fulfillment ist für mich bisher sehr spannend, weil ich hier an einem deutlich grösseren Enterprise-System arbeite. Ich merke, dass ich durch dieses Projekt lerne, viel systematischer vorzugehen.
@@ -443,3 +442,51 @@ Besonders wichtig war für mich die Erkenntnis:
 Ich sollte nicht sofort implementieren, sondern zuerst verstehen, testen, vergleichen und designen.
 
 Die Zusammenarbeit mit **Tino und Mihaela** hilft mir sehr, weil ich dadurch sehe, wie erfahrene Entwickler an grosse Systeme herangehen. Ich freue mich darauf, noch tiefer in das Projekt einzusteigen und meine bisherigen Erfahrungen aus Journey, FlowBoard und Score&More hier anzuwenden.
+
+---
+# Juni 2026
+
+## Woche 1 – Implementation und Testing
+
+### Hauptthemen
+
+- Service Layer implementieren
+- Repository Layer implementieren
+- WSL Development Environment einrichten
+- Unit Tests und Integrationstests erstellen
+- Endpoints lokal validieren
+
+---
+
+### Was habe ich gemacht?
+
+Diese Woche konnte ich die eigentliche Umsetzung der Building IDs API abschliessen.
+
+Ein wichtiger Schritt war zunächst die Einrichtung meines lokalen Entwicklungsumfelds. Da verschiedene Berechtigungen, Tools und Konfigurationen unter Windows nicht korrekt funktioniert haben, habe ich das Projekt über **WSL (Windows Subsystem for Linux)** eingerichtet. Dadurch konnte ich dieselbe Linux-Umgebung verwenden wie viele interne Systeme und erhielt die benötigten Rechte für Maven, Docker, gRPC-Tools und weitere Abhängigkeiten.
+
+Anschliessend habe ich den **Service Layer** fertig implementiert. Dazu gehörte das neue `BuildingService` Interface sowie die zugehörige Implementierung. Die Service-Schicht übernimmt die fachliche Logik und delegiert die Suchanfragen an den Repository Layer.
+
+Danach habe ich den **Repository Layer** umgesetzt. Dort werden die Elasticsearch-Abfragen aufgebaut und ausgeführt. Für die beiden neuen Methoden werden Building-IDs entweder über eine `streetId` oder über einen `zipCode` gesucht. Die Elasticsearch-Queries wurden bewusst möglichst einfach gehalten, damit nur die tatsächlich benötigten Daten abgefragt werden.
+
+Zusätzlich habe ich die minimalistische Protobuf-Response `NumericBuildingId` integriert. Dadurch werden nur die numerischen Building-IDs zurückgegeben, ohne zusätzliche Gebäudedaten oder Metadaten zu übertragen.
+
+Zum Abschluss habe ich umfassende Tests geschrieben. Dazu gehörten Tests für:
+
+- API Layer
+- Service Layer
+- Repository Layer
+- End-to-End Flow der beiden neuen Endpoints
+
+Nach mehreren lokalen Testläufen konnten beide Endpoints erfolgreich validiert werden.
+![[Pasted image 20260602081133.png]]
+---
+
+### Was habe ich gelernt?
+
+Diese Woche habe ich gelernt, wie wichtig die saubere Trennung zwischen API Layer, Service Layer und Repository Layer ist. Obwohl alle Schichten zusammenarbeiten, hat jede eine klar definierte Verantwortung.
+
+Besonders interessant war für mich die Arbeit mit WSL. Ich habe gemerkt, dass Entwicklungsumgebungen in grösseren Unternehmen oft deutlich komplexer sind als private Projekte. Die korrekte Einrichtung der Umgebung ist häufig bereits ein wichtiger Teil der eigentlichen Arbeit.
+
+Durch die Tests habe ich ausserdem gelernt, wie wichtig automatisierte Validierung ist. Gerade bei internen APIs hilft eine gute Testabdeckung dabei, spätere Fehler frühzeitig zu erkennen und Änderungen sicher umzusetzen.
+
+---
