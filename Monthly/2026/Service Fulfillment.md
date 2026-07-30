@@ -489,4 +489,234 @@ Besonders interessant war für mich die Arbeit mit WSL. Ich habe gemerkt, dass E
 
 Durch die Tests habe ich ausserdem gelernt, wie wichtig automatisierte Validierung ist. Gerade bei internen APIs hilft eine gute Testabdeckung dabei, spätere Fehler frühzeitig zu erkennen und Änderungen sicher umzusetzen.
 
+---# Juni 2026
+
+## Woche 1 – Implementation und lokale Tests
+
+### Hauptthemen
+
+- Service Layer fertigstellen
+- Repository Layer implementieren
+- Tests für API und Service Layer schreiben
+- Endpoints lokal validieren
+- Deployment vorbereiten
+
+---
+
+### Was habe ich gemacht?
+
+Diese Woche konnte ich die eigentliche Umsetzung der **Building IDs API** weitgehend abschliessen.
+
+Zuerst habe ich den **Service Layer** fertig implementiert. Die neuen Service-Methoden übernehmen die Requests aus dem gRPC Entry Point und delegieren die Anfragen an den Repository Layer.
+
+Danach habe ich den **Repository Layer** umgesetzt. Dort werden die Elasticsearch-Abfragen aufgebaut und ausgeführt. Die Building-IDs werden entweder anhand einer `streetId` oder eines `zipCode` gesucht.
+
+Zusätzlich habe ich Tests für den **API Layer und den Service Layer** geschrieben. Danach testete ich beide Endpoints vollständig lokal. Die Implementation funktionierte und lieferte die erwarteten Building-IDs.
+
+Der geplante Deploy auf das Development Environment konnte in dieser Woche allerdings noch nicht abgeschlossen werden.
+
+---
+
+### Was habe ich gelernt?
+
+Ich habe die komplette Verbindung zwischen **API Layer, Service Layer, Repository Layer und Elasticsearch** nochmals deutlich besser verstanden.
+
+Durch die Tests wurde mir bewusst, wie wichtig es ist, die einzelnen Schichten separat abzusichern. Dadurch lassen sich Fehler schneller lokalisieren und spätere Änderungen sicherer durchführen.
+
+---
+
+## Woche 2 – Deployment-Skript und OpenShift-Vorbereitung
+
+### Hauptthemen
+
+- Bestehendes `deploy.sh` analysieren
+- Deployment von alter VM auf OpenShift umstellen
+- Neues Deployment-Verhalten dokumentieren
+- Technische Probleme strukturiert untersuchen
+
+---
+
+### Was habe ich gemacht?
+
+Diese Woche analysierte ich das bestehende **`deploy.sh`-Skript**. Das Skript zeigte noch auf die alte virtuelle Maschine und war deshalb nicht für die neue OpenShift- beziehungsweise OKD-Umgebung geeignet.
+
+Ich ging das Skript Schritt für Schritt durch, um zu verstehen:
+
+- welche Dateien gebaut werden
+- wohin die Artefakte kopiert werden
+- welche Server und Pfade verwendet werden
+- wie die Applikation bisher gestartet wurde
+- welche Teile für OpenShift nicht mehr geeignet sind
+
+Anschliessend schrieb ich das Skript um und bereitete es für die neue Umgebung vor.
+
+---
+
+### Was habe ich gelernt?
+
+Ich habe gelernt, dass ältere Deployments nicht einfach direkt auf eine neue Plattform übertragen werden können. Pfade, Zielsysteme, Build-Prozesse und Berechtigungen müssen einzeln verstanden und angepasst werden.
+
+Ausserdem habe ich gemerkt, wie wichtig es ist, Deployment-Skripte nicht nur auszuführen, sondern ihren Aufbau und ihre Seiteneffekte wirklich zu verstehen.
+
+---
+
+## Woche 3 – GitLab, Jenkins und Deployment-Probleme
+
+### Hauptthemen
+
+- Deployment-Probleme mit Mihaela analysieren
+- Implementation dokumentieren
+- Fehlgeschlagenen GitLab-Job beheben
+- Jenkins-Berechtigungen klären
+
+---
+
+### Was habe ich gemacht?
+
+Gemeinsam mit Mihaela analysierte ich die Probleme im überarbeiteten Deployment-Skript. Dabei prüften wir die einzelnen Schritte und versuchten herauszufinden, weshalb das Deployment noch nicht wie geplant funktionierte.
+
+Zusätzlich erstellte ich eine ausführliche Dokumentation über meine Implementation. Darin hielt ich die Architektur, die einzelnen Layer, die beiden Endpoints und den technischen Ablauf fest.
+
+Danach untersuchte ich, weshalb ein **GitLab-Job fehlgeschlagen** war, und behob den entsprechenden Fehler.
+
+Ausserdem analysierte ich, weshalb ich den benötigten Jenkins-Job nicht manuell ausführen konnte. Dafür suchte ich das passende Berechtigungsticket heraus und bestellte den benötigten Zugriff.
+
+---
+
+### Was habe ich gelernt?
+
+Diese Woche hat mir gezeigt, dass ein fehlgeschlagener Build nicht automatisch bedeutet, dass der eigene Code falsch ist. Auch Pipeline-Konfigurationen, bestehende Skripte und fehlende Berechtigungen können die Ursache sein.
+
+Ich lernte, Fehlermeldungen aus GitLab und Jenkins systematischer zu untersuchen und technische Probleme von Berechtigungsproblemen zu unterscheiden.
+
+---
+
+## Woche 4 – Jenkins, Bitbucket, Jira und nächste Schritte
+
+### Hauptthemen
+
+- Jenkins-Pipeline ausführen und analysieren
+- Bitbucket-Deployment verstehen
+- Jira Story erstellen und verbessern
+- Weitere Schritte planen
+- Google Cloud Sync besprechen
+
+---
+
+### Was habe ich gemacht?
+
+Diese Woche startete ich die **Jenkins-Pipeline** und analysierte deren Output. Dadurch konnte ich besser nachvollziehen, welche Schritte während des Builds und Deployments ausgeführt werden.
+
+Zusätzlich las ich die Deployment-Anleitung des DevSecOps-Teams für **Bitbucket** durch und dokumentierte die wichtigsten Informationen.
+
+Ich erhielt ausserdem Zugriff auf Jira und erstellte beziehungsweise überarbeitete meine Story. Dadurch wurden die Anforderungen und nächsten Schritte klarer festgehalten.
+
+Gemeinsam mit Tom besprach ich zudem die nächsten Schritte bezüglich Google Cloud Sync und Hosting.
+
+Der Versuch, ein weiteres Projekt vollständig zu kompilieren und zu starten, konnte in dieser Woche noch nicht abgeschlossen werden.
+
+---
+
+### Was habe ich gelernt?
+
+Ich erhielt ein viel vollständigeres Bild davon, wie **Git, Bitbucket, Jenkins, Jira und OpenShift** innerhalb eines Enterprise-Projekts zusammenspielen.
+
+Dabei wurde mir bewusst, dass eine technische Implementation zusätzlich eine korrekt definierte Story, einen funktionierenden Build, die passenden Berechtigungen und eine saubere Deployment-Pipeline benötigt.
+
+---
+
+# Juli 2026
+
+## Woche 1 – Testing im Development Environment
+
+### Hauptthemen
+
+- Dragonfly UI einrichten
+- gRPC-Endpoints im Dev Environment testen
+- Ergebnisse mit Andreas überprüfen
+- Integration ausserhalb der lokalen Umgebung validieren
+
+---
+
+### Was habe ich gemacht?
+
+Diese Woche habe ich zuerst die **Dragonfly UI im Browser zum Laufen gebracht**, damit ich auf die benötigten internen Funktionen und Services zugreifen konnte.
+
+Anschliessend testete ich gemeinsam mit **Andreas** meine beiden gRPC-Endpoints im Development Environment. Die Endpoints liefen dort erfolgreich und lieferten die erwarteten Building-IDs zurück.
+
+Nachdem die Funktionen zuvor hauptsächlich lokal getestet worden waren, war dies ein wichtiger Schritt in Richtung vollständiger Integration.
+
+---
+
+### Was habe ich gelernt?
+
+Das Testing im Development Environment hat mir gezeigt, dass eine lokal funktionierende Implementation nochmals unter realistischeren Bedingungen geprüft werden muss.
+
+Dabei spielen zusätzliche Faktoren wie Konfigurationen, interne Services, Netzwerkzugriffe und Berechtigungen eine wichtige Rolle.
+
+---
+
+## Woche 2 und 3 – Ferien
+
+Vom **13. bis zum 24. Juli 2026** war ich in den Sommerferien und arbeitete deshalb nicht am Building Service.
+
+---
+
+## Woche 4 – OpenShift-Testing und Code Review
+
+### Hauptthemen
+
+- gRPC-Testing auf dem OpenShift-Cluster
+- Berechtigungen über MyEasy beantragen
+- Technische Stolpersteine lösen
+- Code Review mit Andreas König und Mihaela
+- Endpoint-Implementation abschliessen
+
+---
+
+### Was habe ich gemacht?
+
+Nach meinen Ferien begann ich damit, meine beiden gRPC-Endpoints vollständig abzuschliessen und direkt auf dem **OpenShift-Cluster** zu testen.
+
+Der Start in das Testing war mühsamer als erwartet. Für verschiedene Systeme, Cluster-Funktionen und Zugriffe benötigte ich zusätzliche Berechtigungen. Diese mussten teilweise über **MyEasy** beantragt werden, wodurch Abhängigkeiten und Wartezeiten entstanden.
+
+Zusätzlich gab es kleinere technische Stolpersteine bei:
+
+- Clusterzugriffen
+- gRPC-Verbindungen
+- Weiterleitungen
+- internen Credentials
+- verfügbaren Tools
+- Konfigurationen des Development Environments
+
+Trotzdem konnte ich mit dem Testing beginnen und überprüfen, wie sich meine Endpoints in der tatsächlichen Cluster-Umgebung verhalten.
+
+Ein besonders hilfreicher Teil der Woche war das **Code Review mit Andreas König und Mihaela**. Gemeinsam gingen wir meine komplette Implementation nochmals sorgfältig durch. Dabei überprüften wir:
+
+- die `.proto`-Definitionen
+- den gRPC Entry Point
+- den Service Layer
+- den Repository Layer
+- die Elasticsearch-Abfragen
+- die Tests
+- die Fehlerbehandlung
+- die Benennung der Methoden und Klassen
+
+Das Review half mir dabei, meine Implementation nochmals kritisch zu betrachten, offene Fragen zu klären und einzelne Stellen zu verbessern.
+
+---
+
+### Was habe ich gelernt?
+
+Diese Woche hat mir gezeigt, dass Integrationstesting in einer Enterprise-Umgebung deutlich mehr umfasst als das reine Ausführen eines Requests. Berechtigungen, Clusterzugriffe, interne Prozesse und Netzwerkverbindungen können genauso viel Zeit beanspruchen wie die technische Implementation.
+
+Das Code Review war besonders wertvoll. Ich habe gelernt, meinen Code nicht nur danach zu beurteilen, ob er funktioniert, sondern auch auf folgende Punkte zu achten:
+
+- Lesbarkeit
+- klare Verantwortlichkeiten
+- einheitliche Benennung
+- Wartbarkeit
+- Fehlerbehandlung
+- Testbarkeit
+- bestehende Projektkonventionen
 ---

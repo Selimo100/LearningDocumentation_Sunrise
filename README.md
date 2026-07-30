@@ -21,5 +21,4 @@ learning-journal/
 ├──----| xx-xx-xxxx - xx-xx-xxxx
 ├── Topics/
 ├──----| Topic1
-
-
+```
