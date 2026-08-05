@@ -1,13 +1,13 @@
 >Link zu meiner Doku für Service Fulfillment:
 https://sunrisecomm-my.sharepoint.com/:o:/g/personal/selina_mogicato_sunrise_net/IgC-pc1mfeoOR5fJ6-v6sD_aAUcTiIRJuvALsp6IPRX4bOY?e=P180Hj
-
-# April 2026
-
 ---
 ## Ziel dieses Journals
 
 Dieses Journal dokumentiert meinen Einstieg in **Service Fulfillment** und insbesondere in das Projekt **Building Service**.  
 Da das Projekt deutlich grösser und komplexer ist als meine bisherigen Projekte, halte ich hier fest, wie ich mich Schritt für Schritt eingearbeitet habe, welche Erkenntnisse ich gewonnen habe und wie ich weiter vorgehen möchte.
+
+---
+# April 2026
 
 ---
 
